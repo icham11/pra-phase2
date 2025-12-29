@@ -14,7 +14,20 @@
     "dialect": "mysql"
   },
   "production": {
-    "use_env_variable": "DATABASE_URL",
+    "production": {
+      "username": "postgres",
+      "password": "YOUR_PASSWORD",
+      "database": "railway",
+      "host": "caboose.proxy.rlwy.net",
+      "port": 20743,
+      "dialect": "postgres",
+      "dialectOptions": {
+        "ssl": {
+          "require": true,
+          "rejectUnauthorized": false
+        }
+      }
+    },
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": {
