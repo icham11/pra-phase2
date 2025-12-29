@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx sequelize db:migrate && node app.js"
+    "start": "npx sequeliz-cli db:migrate && node app.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.16.3",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.3"
   }
 }
