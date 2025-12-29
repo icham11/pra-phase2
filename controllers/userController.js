@@ -27,16 +27,23 @@ class UserController {
   }
   static async register(req, res) {
     try {
-      const { email, password, role } = req.body;
+      const { username, email, password, role, phoneNumber, address } =
+        req.body;
       const newUser = await User.create({
+        username,
         email,
         password,
         role: role || "Staff",
+        phoneNumber,
+        address,
       });
       res.status(201).json({
         id: newUser.id,
+        username: newUser.username,
         email: newUser.email,
         role: newUser.role,
+        phoneNumber: newUser.phoneNumber,
+        address: newUser.message,
         message: "User berhasil dibuat",
       });
     } catch (error) {
