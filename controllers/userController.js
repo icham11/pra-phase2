@@ -39,15 +39,16 @@ class UserController {
         role: newUser.role,
         message: "User berhasil dibuat",
       });
-    } catch (error) {}
-    console.log("🚀 ~ UserController ~ register ~ error:", error);
-    if (error.name === "SequelizeUniqueConstraintError") {
-      return res.status(400).json({ message: "Email sudah terdaftar" });
+    } catch (error) {
+      console.log("🚀 ~ UserController ~ register ~ error:", error);
+      if (error.name === "SequelizeUniqueConstraintError") {
+        return res.status(400).json({ message: "Email sudah terdaftar" });
+      }
+      if (error.name === "SequelizeValidationError") {
+        return res.status(400).json({ message: error.errors[0].message });
+      }
+      res.status(500).json({ message: "Internal Server Error" });
     }
-    if (error.name === "SequelizeValidationError") {
-      return res.status(400).json({ message: error.errors[0].message });
-    }
-    res.status(500).json({ message: "Internal Server Error" });
   }
   static async template(req, res) {
     try {
