@@ -8,7 +8,7 @@ async function authentication(req, res, next) {
       throw { name: "Unauthorization", message: "Silahkan login dulu!" };
     }
 
-    const payload = jwt.verify(access_token, "rahasia");
+    const payload = jwt.verify(access_token, process.env.JWT_SECRET);
     const user = await User.findByPk(payload.id);
     if (!user) {
       throw { name: "Unauthorization", message: "User tidak valid" };

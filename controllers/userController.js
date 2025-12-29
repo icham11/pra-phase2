@@ -16,7 +16,7 @@ class UserController {
       }
       const access_token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
-        "rahasia",
+        process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );
       res.status(200).json({ access_token });
