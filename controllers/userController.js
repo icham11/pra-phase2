@@ -47,6 +47,7 @@ class UserController {
         message: "User berhasil dibuat",
       });
     } catch (error) {
+      console.log("🚀 ~ UserController ~ register ~ error:", error);
       if (error.name === "SequelizeUniqueConstraintError") {
         return res.status(400).json({ message: "Email sudah terdaftar" });
       }
