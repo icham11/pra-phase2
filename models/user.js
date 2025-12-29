@@ -14,16 +14,50 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      username: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      role: DataTypes.STRING,
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: { msg: "Username sudah terdaftar" },
+        validate: {
+          notNull: { msg: "Username tdak boleh kosong" },
+          notEmpty: { msg: "Username tdak boleh kosong" },
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: { msg: "Email sudah terdaftar" },
+        validate: {
+          notNull: { msg: "Email tdak boleh kosong" },
+          notEmpty: { msg: "Email tdak boleh kosong" },
+          isEmail: { msg: "Format email salah" },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Email tdak boleh kosong" },
+          notEmpty: { msg: "Email tdak boleh kosong" },
+        },
+        len: {
+          args: [5],
+          msg: "Password minimal 5 karakter",
+        },
+      },
+      role: { type: DataTypes.STRING, defaultValue: "Staff" },
       phoneNumber: DataTypes.STRING,
       address: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "User",
+      hooks: {
+        beforeCreate: (user) => {
+          const salt = bcrypt.genSaltSync(10);
+          user.password = bcrypt.hashSync(user.password, salt);
+        },
+      },
     }
   );
   return User;
