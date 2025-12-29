@@ -25,9 +25,29 @@ class UserController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
-  static async template(req, res) {
+  static async register(req, res) {
     try {
+      const { email, password, role } = req.body;
+      const newUser = await User.create({
+        email,
+        password,
+        role: role || "Staff",
+      });
+      res.status(201).json({
+        id: newUser.id,
+        email: newUser.email,
+        role: newUser.role,
+        message: "User berhasil dibuat",
+      });
     } catch (error) {}
+    console.log("🚀 ~ UserController ~ register ~ error:", error);
+    if (error.name === "SequelizeUniqueConstraintError") {
+      return res.status(400).json({ message: "Email sudah terdaftar" });
+    }
+    if (error.name === "SequelizeValidationError") {
+      return res.status(400).json({ message: error.errors[0].message });
+    }
+    res.status(500).json({ message: "Internal Server Error" });
   }
   static async template(req, res) {
     try {
